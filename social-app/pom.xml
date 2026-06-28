@@ -27,13 +27,22 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>25</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -45,6 +54,26 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+    		<groupId>io.jsonwebtoken</groupId>
+    		<artifactId>jjwt-api</artifactId>
+    		<version>0.11.5</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>io.jsonwebtoken</groupId>
+    		<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+    		<scope>runtime</scope>
+		</dependency>
+	
+		<dependency>
+    		<groupId>io.jsonwebtoken</groupId>
+    		<artifactId>jjwt-jackson</artifactId>    
+			<version>0.11.5</version>
+    		<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -76,6 +105,32 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+    		<groupId>nl.basjes.parse.useragent</groupId>
+    		<artifactId>yauaa</artifactId>
+    		<version>7.31.0</version> 
+		</dependency>
+
+		<!-- Thumbnailator -->
+		<dependency>
+    		<groupId>net.coobird</groupId>
+    		<artifactId>thumbnailator</artifactId>
+    		<version>0.4.20</version>
+		</dependency>
+
+		<!-- WebP support -->
+		<dependency>
+    		<groupId>org.sejda.imageio</groupId>
+    		<artifactId>webp-imageio</artifactId>
+    		<version>0.1.6</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>com.github.javafaker</groupId>
+    		<artifactId>javafaker</artifactId>
+    		<version>1.0.2</version>
 		</dependency>
 	</dependencies>
 
