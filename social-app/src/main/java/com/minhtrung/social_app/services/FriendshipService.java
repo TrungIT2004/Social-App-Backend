@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.minhtrung.social_app.dtos.CreateFriendshipRequest;
 import com.minhtrung.social_app.dtos.FriendDataResponse;
+import com.minhtrung.social_app.dtos.FriendRecommendationDataResponse;
 import com.minhtrung.social_app.dtos.FriendRequestDataResponse;
 import com.minhtrung.social_app.enums.FriendshipStatus;
 import com.minhtrung.social_app.models.Friendship;
@@ -57,13 +58,14 @@ public class FriendshipService {
             String profilePicUrl = (String) row[2];
             int mutualFriendCount = row[3] != null ? ((Number) row[3]).intValue() : 0;
             LocalDateTime createdAt = (LocalDateTime) row[4];
-            return new FriendRequestDataResponse(friendshipId, pendingUserId, fullname, profilePicUrl, mutualFriendCount, createdAt);
+            return new FriendRequestDataResponse(friendshipId, pendingUserId, fullname, profilePicUrl,
+                    mutualFriendCount, createdAt);
         })
                 .collect(Collectors.toList());
 
         return sentFriendRequests;
     }
-
+    
     public List<FriendDataResponse> getUsersFriends(UUID userId) {
         List<Object[]> friendsData = friendshipRepository.retrieveFriendsInfo(userId);
 
@@ -78,6 +80,39 @@ public class FriendshipService {
                 .collect(Collectors.toList());
 
         return friends;
+    }
+
+    public List<FriendRecommendationDataResponse> getFriendsRecommendations_AdamicAdar(int page, int size,
+            UUID userId) {
+        int offset = page * size;
+        List<Object[]> data = friendshipRepository.friendRecommentdationsAdamicAdar(userId, size, offset);
+
+        List<FriendRecommendationDataResponse> recommendations = data.stream().map(row -> {
+            UUID Id = (UUID) row[0];
+            String fullname = (String) row[1];
+            String profilePicUrl = (String) row[2];
+            int mutualFriendCount = row[4] != null ? ((Number) row[4]).intValue() : 0;
+            return new FriendRecommendationDataResponse(Id, fullname, profilePicUrl, mutualFriendCount);
+        })
+                .collect(Collectors.toList());
+
+        return recommendations;
+    }
+    
+    public List<FriendRecommendationDataResponse> getFriendsRecommendations_Jaccard(int page, int size, UUID userId) {
+        int offset = page * size;
+        List<Object[]> data = friendshipRepository.friendRecommendationsJaccard(userId, size, offset);
+
+        List<FriendRecommendationDataResponse> recommendations = data.stream().map(row -> {
+            UUID Id = (UUID) row[0];
+            String fullname = (String) row[1];
+            String profilePicUrl = (String) row[2];
+            int mutualFriendCount = row[4] != null ? ((Number) row[4]).intValue() : 0;
+            return new FriendRecommendationDataResponse(Id, fullname, profilePicUrl, mutualFriendCount);
+        })
+                .collect(Collectors.toList());
+
+        return recommendations;
     }
     
     public Friendship createFriendRequest(CreateFriendshipRequest req) {

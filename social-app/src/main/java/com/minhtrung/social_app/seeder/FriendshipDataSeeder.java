@@ -39,9 +39,9 @@ public class FriendshipDataSeeder implements CommandLineRunner {
             return;
         }
 
-        log.info("🌱 Seeding 500 users and 8000 friendships (with cliques)...");
+        log.info("🌱 Seeding 500 users and 8000 friendships (with cross‑clique ACCEPTED edges)...");
 
-        // 1. Ensure 500 users
+        // 1. Ensure 500 users (keep existing ones)
         List<User> existingUsers = userRepository.findAll();
         Set<String> existingEmails = existingUsers.stream()
                 .map(User::getEmail)
@@ -60,7 +60,7 @@ public class FriendshipDataSeeder implements CommandLineRunner {
         int toCreate = (int) (targetTotal - existingFriendships);
         if (toCreate > 0) {
             createFriendships(existingUsers, toCreate);
-            log.info("✅ Created {} new friendships (cliques)", toCreate);
+            log.info("✅ Created {} new friendships (with cross‑clique ACCEPTED)", toCreate);
         }
 
         log.info("🎉 Seeding complete!");
@@ -94,7 +94,7 @@ public class FriendshipDataSeeder implements CommandLineRunner {
         List<Friendship> friendships = new ArrayList<>();
         Set<String> usedPairs = new HashSet<>();
 
-        // Chia users thành các clique (nhóm) kích thước 15-25
+        // 1. Split users into cliques (size 15-25)
         int cliqueSizeMin = 15;
         int cliqueSizeMax = 25;
         List<List<User>> cliques = new ArrayList<>();
@@ -107,10 +107,9 @@ public class FriendshipDataSeeder implements CommandLineRunner {
             cliques.add(users.subList(currentIndex, currentIndex + size));
             currentIndex += size;
         }
-
         log.info("Created {} cliques", cliques.size());
 
-        // Bước 1: Trong mỗi clique, tạo friendships đầy đủ (ACCEPTED) – tạo ra nhiều bạn chung
+        // 2. Full friendship inside each clique (ACCEPTED)
         int cliqueFriendships = 0;
         for (List<User> clique : cliques) {
             for (int i = 0; i < clique.size(); i++) {
@@ -137,12 +136,13 @@ public class FriendshipDataSeeder implements CommandLineRunner {
         }
         log.info("Generated {} friendships within cliques (ACCEPTED)", cliqueFriendships);
 
-        // Bước 2: Thêm một số friendships ngẫu nhiên giữa các clique khác nhau (PENDING, REJECTED, UNFRIENDED)
+        // 3. Cross‑clique friendships – some ACCEPTED, others PENDING/REJECTED/UNFRIENDED
         int remaining = targetTotal - friendships.size();
         if (remaining > 0) {
-            log.info("Adding {} cross-clique friendships (PENDING/REJECTED/UNFRIENDED)...", remaining);
+            log.info("Adding {} cross‑clique friendships (ACCEPTED/PENDING/REJECTED/UNFRIENDED)...", remaining);
             List<FriendshipStatus> crossStatuses = Arrays.asList(
-                    FriendshipStatus.PENDING,
+                    FriendshipStatus.ACCEPTED,
+                    FriendshipStatus.ACCEPTED,   // two ACCEPTED to increase chance
                     FriendshipStatus.PENDING,
                     FriendshipStatus.REJECTED,
                     FriendshipStatus.UNFRIENDED
