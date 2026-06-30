@@ -1,3 +1,0 @@
-2026-06-23 21:02:00.938 [main] [] INFO  c.m.social_app.SocialAppApplication - Starting SocialAppApplication using Java 21.0.10 with PID 12412 (C:\Users\ad\Desktop\social-app\social-app\target\classes started by ad in C:\Users\ad\Desktop\social-app\social-app)
-2026-06-23 21:02:00.944 [main] [] DEBUG c.m.social_app.SocialAppApplication - Running with Spring Boot v4.0.6, Spring v7.0.7
-2026-06-23 21:02:00.945 [main] [] INFO  c.m.social_app.SocialAppApplication - No active profile set, falling back to 1 default profile: "default"
