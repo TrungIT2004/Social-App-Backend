@@ -583,9 +583,7 @@ This project is for educational purposes only. All rights reserved.
 ## 👨‍💻 Author
 
 Hoàng Lê Minh Trung  
-GitHub: @your-username  
 Email: htmtrung2004@gmail.com  
-LinkedIn: your-linkedin  
 
 ### 🙏 Acknowledgments
 - Spring Boot community
